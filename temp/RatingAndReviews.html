@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %} 
+<head>
+ <link rel="stylesheet" href="{% static 'css/products.css' %}">
+ <style>
+   
+   p {
+    word-wrap: break-word;
+    white-space: normal;
+    padding: 10px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+td {
+    vertical-align: top;
+    text-align: left;
+    max-width: 200px;
+    overflow: hidden;
+}
+
+
+ </style>
+</head>
+<!-- Modals  -->
+
+
+
+
+ <!-- Modal for updating products ends -->
+ <!-- Modal for adding products -->
+
+<!-- End of product add modal -->
+
+
+ 
+    <div class="container ">
+        <div class="container-fluid pt-4 px-4 " >
+            <div class="row  g-4">
+                {% if messages %}
+                                {% for message in messages %}
+                                    {% if 'error' in message.tags %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <i class="fa fa-exclamation-circle me-2"></i>{{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <i class="fa fa-check-circle me-2"></i>{{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                
+                
+                
+                <div class="col-12">
+                    <div class="bg-secondary rounded h-100 p-4">
+                        <div class="search-container">
+                            
+                            <input class="form-control bg-dark border-0 search-input" type="search" placeholder="Search" id="searchInput">
+                        </div>
+                        <br>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table" >
+                                <thead>
+                                    <tr>
+                                        <th scope="col">User</th>
+                                        <th scope="col">review</th>
+                                        <th scope="col">rating</th>
+                                        </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                   {% for review in reviews %}
+                                 <tr>
+                                    <td>{{review.user.username}}</td>
+                                    <td>
+                                        <p >
+                                            {{review.review}}
+                                        </p>
+                                    </td>
+                                    <td>{{review.rating}}/5</td>
+                                 </tr>
+                                   {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="col-sm-12 col-xl-12" style="height:85px;">
+                    <div class="bg-secondary rounded h-100 p-4 align-items-center justify-content-center">
+                        <div class="btn-toolbar justify-content-center" role="toolbar">
+                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-primary">1</button>
+                                <button type="button" class="btn btn-primary">2</button>
+                                <button type="button" class="btn btn-primary">3</button>
+                                <button type="button" class="btn btn-primary">4</button>
+                            </div>
+                            <div class="btn-group me-2" role="group" aria-label="Second group">
+                                <button type="button" class="btn btn-secondary">5</button>
+                                <button type="button" class="btn btn-secondary">6</button>
+                                <button type="button" class="btn btn-secondary">7</button>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Third group">
+                                <button type="button" class="btn btn-info">8</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="{% static 'js/order.js' %}"></script>
+{% endblock %}

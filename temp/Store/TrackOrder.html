@@ -1,0 +1,26 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row g-5 align-items-center">
+            <div class="col-md-12 col-lg-12">
+                <div class="position-relative mx-auto">
+                    <input id="orderNumberInput" class="form-control border-2 border-secondary w-100 py-3 px-4 rounded-pill" type="search" placeholder="Enter Order Number">
+                    <button id="trackButton" type="button" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 0%;">Track</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Element to display order details -->
+<div id="orderDetails" class="container mt-5">
+    <!-- Order details will be inserted here -->
+</div>
+
+<script src="{% static 'store/js/Track.js' %}"></script>
+
+{% endblock %}

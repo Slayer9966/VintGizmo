@@ -1,0 +1,109 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .order-status-btn {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.order-status-btn:hover {
+    background-color: black !important;
+    color: white !important;
+}
+
+</style>
+<div class="container-fluid fruite py-5" style="margin-top: 170px;">
+    <div class="container py-5">
+        {% if user %}
+        <div class="text-center mb-5">
+            <h1>Your Orders</h1>
+        </div>
+        <div class="row justify-content-center mb-4">
+            <div class="d-flex justify-content-center mb-4">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="d-flex justify-content-center align-items-center m-2 py-2 px-3 rounded-pill {% if request.GET.status == 'all' or not request.GET.status %}bg-primary text-white{% else %}bg-light text-dark{% endif %} order-status-btn"
+                           href="{% url 'user_orders' %}?status=all">
+                            <span>All Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex justify-content-center align-items-center m-2 py-2 px-3 rounded-pill {% if request.GET.status == 'pending' %}bg-primary text-white{% else %}bg-light text-dark{% endif %} order-status-btn"
+                           href="{% url 'user_orders' %}?status=pending">
+                            <span>Pending</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex justify-content-center align-items-center m-2 py-2 px-3 rounded-pill {% if request.GET.status == 'shipped' %}bg-primary text-white{% else %}bg-light text-dark{% endif %} order-status-btn"
+                           href="{% url 'user_orders' %}?status=shipped">
+                            <span>Shipped</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex justify-content-center align-items-center m-2 py-2 px-3 rounded-pill {% if request.GET.status == 'delivered' %}bg-primary text-white{% else %}bg-light text-dark{% endif %} order-status-btn"
+                           href="{% url 'user_orders' %}?status=delivered">
+                            <span>Delivered</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex justify-content-center align-items-center m-2 py-2 px-3 rounded-pill {% if request.GET.status == 'cancelled' %}bg-primary text-white{% else %}bg-light text-dark{% endif %} order-status-btn"
+                           href="{% url 'user_orders' %}?status=cancelled">
+                            <span>Cancelled</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            
+        </div>
+
+        <div class="row">
+            {% for order in orders %}
+            <div class="col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Order #{{ order.order_id }}</h5>
+                        <p class="card-text"><strong>Date:</strong> {{ order.created_at }}</p>
+                        <p class="card-text"><strong>Status:</strong> 
+                            <span class="badge 
+                                {% if order.status == 'pending' %}bg-warning
+                                {% elif order.status == 'shipped' %}bg-info
+                                {% elif order.status == 'delivered' %}bg-success
+                                {% elif order.status == 'cancelled' %}bg-danger
+                                {% endif %}">
+                                {{ order.status|capfirst }}
+                            </span>
+                        </p>
+                    
+                        {% for item in order.items.all %}
+                            <hr>
+                            <p class="card-text"><strong>Product:</strong> {{ item.variation.product_id.name }}</p>
+                            <p class="card-text"><strong>Variation:</strong> {{ item.variation.name }}</p>
+                            <p class="card-text"><strong>Quantity:</strong> {{ item.quantity }}</p>
+                            <p class="card-text"><strong>Price 1pcs:</strong> ${{ item.price }}</p>
+                            <p class="card-text"><strong>Total:</strong> ${{ item.total_price }}</p>
+                            
+                        {% endfor %}
+                        <p class="card-text"><strong>Discount:</strong> ${{ order.discounts }}</p>
+
+                        <p class="card-text"><strong>Shipping Cost:</strong> ${{ order.shipping_cost }}</p>
+                            <p class="card-text"><strong>Total Amount:</strong> ${{ order.total_cost }}</p>
+                    </div>
+                    
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-lg-12">
+                <div class="alert alert-info text-center">
+                    No orders found.
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <h1 style="text-align: center;">You have to <a  style="text-decoration: underline;" href="{% url 'loginPage' %}" >Login</a> first</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

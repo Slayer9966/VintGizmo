@@ -1,0 +1,164 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+
+<!-- Checkout Page Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Billing details</h1>
+        <form action="{% url 'create_order' %}" method="post">
+            {% csrf_token %}
+            <div class="row g-5">
+                {% if not user %}
+                <div class="col-md-12 col-lg-6 col-xl-7">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Name<sup>*</sup></label>
+                                <input required name="name" type="text" class="form-control" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Phone Number<sup>*</sup></label>
+                                <input name="phone_number" type="text" class="form-control" placeholder="Phone Number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">City <sup>*</sup></label>
+                        <input name="city" type="text" class="form-control" placeholder="City" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Street Address<sup>*</sup></label>
+                        <input name="street_address" type="text" class="form-control" placeholder="Street Address" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">State/Region<sup>*</sup></label>
+                        <input name="state" type="text" class="form-control" placeholder="State" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
+                        <input name="post_code" type="text" class="form-control" placeholder="PostCode" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Email Address<sup>*</sup></label>
+                        <input name="email" type="email" class="form-control" placeholder="Email" required>
+                    </div>
+                    <hr>
+                </div>
+                {% else %}
+                <div class="col">
+                    {% for address in addresses %}
+                    <div class="col-lg-8 mb-4">
+                        <input type="radio" id="address{{ address.id }}" name="address_id" value="{{ address.id }}" required>
+                        <a href="javascript:void(0);" data-id="{{ address.id }}" class="address text-decoration-none">
+                            <div class="address-card p-4 bg-dark text-white rounded shadow-lg">
+                                <p class="mb-3">Name: {{ address.name }}</p>
+                                <p class="mb-2">Phone: {{ address.phone_number }}</p>
+                                <p>City: {{ address.city }}</p>
+                                <p>State: {{ address.state }}</p>
+                                <p>Postal Code: {{ address.postal_code }}</p>
+                                <p>Street Address: {{ address.street_address }}</p>
+                            </div>
+                        </a>
+                        <hr class="my-4">
+                    </div>
+                    {% endfor %}
+                    <div class="text-center mt-5 col-lg-8">
+                        <a href="{% url 'AddressPage' %}" class="addAddress text-decoration-none">
+                            <div class="p-4 bg-primary text-white rounded d-flex justify-content-center align-items-center shadow-lg">
+                                <img src="{% static 'icons/Address.png' %}" alt="Address Icon" class="img-fluid" style="width: 40px;">
+                                <span class="ms-2 fs-4">Add Address</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-md-12 col-lg-6 col-xl-5">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Products</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart_items %}
+                                <input type="hidden" name="item_ids[]" value="{{ item.id }}">
+                            {% endfor %}
+                                {% for item in cart_items %}
+                                <tr>
+                                    <th scope="row">
+                                        <div class="d-flex align-items-center mt-2">
+                                            <img src="{{ item.first_image }}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
+                                        </div>
+                                    </th>
+                                    <td class="py-5">{{ item.name }}</td>
+                                    <td class="py-5">{{ item.sales_price }}</td>
+                                    <td class="py-5">{{ item.quantity }}</td>
+                                    <td class="py-5">{{ item.total_price }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="4" class="text-right py-5">Subtotal</td>
+                                    <td class="py-5">${{ subtotal }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right py-5">Shipping</td>
+                                    <td class="py-5">${{ shipping }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right py-5">Discount</td>
+                                    <td class="py-5" id="discountAmount">${{ discount_amount }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right py-5">Total</td>
+                                    <td class="py-5" id="totalAmount">${{ total_price }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        <div class="col-12">
+                            <div class="form-check text-start my-3">
+                                <input type="radio" class="form-check-input bg-primary border-0" id="Transfer-1" name="payment_method" value="Transfer" required>
+                                <label class="form-check-label" for="Transfer-1">Direct Bank Transfer</label>
+                            </div>
+                            <p class="text-start text-dark">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
+                        </div>
+                    </div>
+                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        <div class="col-12">
+                            <div class="form-check text-start my-3">
+                                <input type="radio" class="form-check-input bg-primary border-0" id="Payments-1" name="payment_method" value="Check" required>
+                                <label class="form-check-label" for="Payments-1">Check Payments</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                        <div class="col-12">
+                            <div class="form-check text-start my-3">
+                                <input type="radio" class="form-check-input bg-primary border-0" id="Delivery-1" name="payment_method" value="Cash" required>
+                                <label class="form-check-label" for="Delivery-1">Cash on Delivery</label>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="discount_total" value="{{ discount_amount }}">
+                    <input type="hidden" name="shipping_cost" value="{{ shipping }}">
+                    <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Place Order</button>                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{% static 'store/js/CheckOut.js' %}">
+
+</script>
+{% endblock %}

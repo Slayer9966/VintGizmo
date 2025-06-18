@@ -1,0 +1,137 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+    <style>
+        .star {
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .star.text-warning {
+            color: #f39c12;
+            /* Gold color for selected stars */
+        }
+
+        /* Style for full stars */
+        /* Container for review items */
+        .review-container {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow items to wrap if needed */
+            margin-bottom: 1rem;
+            /* Space between review items */
+        }
+
+        /* Image styling */
+        .review-container img {
+            flex-shrink: 0;
+            /* Prevent the image from shrinking */
+            margin-right: 1rem;
+            /* Space between image and text */
+        }
+
+        /* Review text container */
+        .review-text {
+            flex: 1;
+            /* Allow text to take up remaining space */
+            overflow: hidden;
+            /* Hide overflowing content */
+        }
+
+        /* Date text styling */
+        .date-text {
+            font-size: 14px;
+            /* Adjust font size */
+            margin-bottom: 0.5rem;
+            /* Space below date */
+        }
+
+        /* Review title and stars */
+        .review-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Review stars */
+        .review-stars {
+            display: flex;
+        }
+
+        /* Review text with line breaks handled */
+        .review-content {
+            overflow-wrap: break-word;
+            /* Break long words */
+            word-wrap: break-word;
+            /* For older browsers */
+            word-break: break-word;
+            /* Optional for additional breaks */
+            margin: 0;
+            /* Ensure no extra margin */
+            padding: 0;
+            /* Ensure no extra padding */
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .review-container {
+                flex-direction: column;
+                /* Stack image and text vertically on smaller screens */
+                align-items: flex-start;
+                /* Align items to the start */
+            }
+
+            .review-container img {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                /* Add margin at the bottom of the image */
+            }
+        }
+
+        .fa-star.rated,
+        .fa-star-half-o.rated {
+            color: #f39c12;
+            /* Color for filled stars (e.g., gold) */
+        }
+
+        .fa-star.uncolored {
+            color: #ddd;
+            /* Slightly different shade for empty stars */
+        }
+    </style>
+</head>
+<!-- Single Page Header start -->
+<br>
+<br>
+<!-- Single Page Header End -->
+
+
+<!-- Single Product Start -->
+<div class="container-fluid py-5 mt-5">
+    <div class="container py-5">
+        <div class="row g-4 mb-5">
+            <div class="col-lg-8 col-xl-9">
+                <div class="row g-4">
+  <h1>Reviews</h1>
+                    <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                        
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    const Review="{% url 'fetch_all_reviews' product.id %}"
+</script>
+<script src="{% static 'store/js/AllReviews.js' %}"></script>
+<!-- Footer Start -->
+{% endblock %}

@@ -1,0 +1,53 @@
+/* for search and add button styling in the Products.html  */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.search-container .search-input {
+    max-width: 300px; /* Adjust the width as needed */
+}
+/* for add modal styling in Products.html */
+.modal-content {
+    background-color: #191C24;
+}
+/* For hiding the scroll bar */
+.ca {
+    height:250px !important;
+    overflow: hidden; /* Hide the scrollbar */
+    overflow-y: scroll; /* Allow vertical scrolling */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.ca::-webkit-scrollbar {
+    display: none; /* Hide the scrollbar in WebKit-based browsers (Chrome, Safari, etc.) */
+}
+/* styling for choices.js */
+.choices__inner {
+    background-color:#000; /* Custom background color */
+    border-radius: 4px; /* Custom border radius */
+}
+
+.choices__list--single .choices__item {
+    color: #6C7293; /* Custom text color */
+    padding: 10px; /* Custom padding */
+}
+
+.choices__list--dropdown .choices__item--selectable {
+    background-color: #000 !important; /* Custom option background */
+    border-bottom: 1px solid #6C7293 !important; /* Custom option border */
+}
+.choices__input {
+    color: #6C7293 !important; /* Set the text color */
+    background-color: #000 !important; /* Set the background color */
+    border: 1px solid #6C7293 !important; /* Set the border color */
+    padding: 8px; /* Set padding */
+    border-radius: 4px; /* Set border radius */
+}
+
+/* Customize the search input field on focus */
+.choices__input:focus {
+    background-color: #000 !important; /* Change background color on focus */
+    border-color: #6C7293 !important; /* Change border color on focus */
+    outline: none; /* Remove the default outline */
+}

@@ -1,0 +1,234 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Update Address Modal -->
+<div class="modal fade" id="exampleModalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Address</h5>
+            </div>
+            <form id="updateAddressForm" action="{% url 'update_address' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" id="address_id" name="id">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="phone_number" name="phone_number"
+                            placeholder="Phone Number">
+                        <label for="phone_number">Phone Number</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="street_address" name="street_address"
+                            placeholder="Street Address">
+                        <label for="street_address">Street Address</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="city" name="city" placeholder="City">
+                        <label for="city">City</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="state" name="state" placeholder="State">
+                        <label for="state">State</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="postal_code" name="postal_code"
+                            placeholder="Postal Code">
+                        <label for="postal_code">Postal Code</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal for updating products ends -->
+<!-- Modal for adding products -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+            </div>
+            <form method="post" action="{% url 'AddAddress' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <!-- Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingName" name="name" placeholder="Full Name"
+                            required>
+                        <label for="floatingName">Full Name</label>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingPhoneNumber" name="phone_number"
+                            placeholder="Phone Number" required>
+                        <label for="floatingPhoneNumber">Phone Number</label>
+                    </div>
+
+                    <!-- City -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingCity" name="city" placeholder="City"
+                            required>
+                        <label for="floatingCity">City</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingCity" name="street_address"
+                            placeholder="Street" required>
+                        <label for="floatingCity">Street Address</label>
+                    </div>
+
+                    <!-- State -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingState" name="state"
+                            placeholder="State/Region" required>
+                        <label for="floatingState">State/Region</label>
+                    </div>
+
+                    <!-- Postal Code -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingPostalCode" name="postal_code"
+                            placeholder="Postal Code" required>
+                        <label for="floatingPostalCode">Postal Code</label>
+                    </div>
+
+                    <!-- Address Type -->
+                    <div class="form-floating mb-3">
+                        <select name="address_type" class="form-select" id="floatingAddressType" required>
+                            <option value="" disabled selected>Select Address Type</option>
+                            <option value="billing">Billing</option>
+                            <option value="shipping">Shipping</option>
+                        </select>
+                        <label for="floatingAddressType">Address Type</label>
+                    </div>
+
+                    <!-- Default Address -->
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" value="True" id="isDefault" name="is_default">
+                        <label class="form-check-label" for="isDefault">
+                            Set as Default Address
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="close_add btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- end of modals -->
+<br>
+<br>
+<br>
+<!-- Single Page Header End -->
+
+
+<!-- Contact Start -->
+<div class="container-fluid contact py-5">
+    <div class="container py-5">
+        <div class="p-5 bg-light rounded">
+            <div class="row">
+                {% for address in addresses %}
+                <div class="col-lg-4 mb-4"> <!-- Adjust column width and margin as needed -->
+                    <a href="javascript:void(0);" data-id="{{ address.id }}"
+                        class="update-address text-decoration-none">
+                        <div class="address-card p-4 bg-dark text-white rounded shadow-lg">
+                            <p class="mb-3">{{ address.name }}</p>
+                            <p class="mb-2">Phone: {{ address.phone_number }}</p>
+                            <p>
+                                {{ address.city }}, {{ address.state }} {{ address.postal_code }}<br>
+                                {{ address.street_address }}
+                            </p>
+                            <a href="{% url 'DeleteAddress' id=address.id %}"> <button
+                                    class="btn btn-danger delete-address" data-id="{{ address.id }}">Delete</button>
+                            </a>
+                        </div>
+                    </a>
+
+                    <hr class="my-4">
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="text-center">No addresses found.</p>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Add Address Button -->
+            <div class="text-center mt-5">
+                <a href="javascript:void(0);" class="addAddress text-decoration-none">
+                    <div
+                        class="p-4 bg-primary text-white rounded d-flex justify-content-center align-items-center shadow-lg">
+                        <img src="{% static 'icons/Address.png' %}" alt="Address Icon" class="img-fluid"
+                            style="width: 40px;">
+                        <span class="ms-2 fs-4">Add Address</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contact End -->
+<script src="{% static 'store/js/Address.js' %}">
+
+</script>
+{% endblock %}
+<div class="row g-4">
+    <div class="col-12">
+        <div class="text-center mx-auto" style="max-width: 700px;">
+            <h1 class="text-primary">Addresses</h1>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <form action="" class="">
+            <input type="text" class="w-100 form-control border-0 py-3 mb-4" placeholder="Your Name">
+            <input type="email" class="w-100 form-control border-0 py-3 mb-4" placeholder="Enter Your Email">
+            <textarea class="w-100 form-control border-0 mb-4" rows="5" cols="10" placeholder="Your Message"></textarea>
+            <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary "
+                type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="col-lg-5">
+        <div class="d-flex p-4 rounded mb-4 bg-white">
+            <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
+            <div>
+                <h4>Address</h4>
+                <p class="mb-2">123 Street New York.USA</p>
+            </div>
+        </div>
+        <div class="d-flex p-4 rounded mb-4 bg-white">
+            <i class="fas fa-envelope fa-2x text-primary me-4"></i>
+            <div>
+                <h4>Mail Us</h4>
+                <p class="mb-2">info@example.com</p>
+            </div>
+        </div>
+        <div class="d-flex p-4 rounded bg-white">
+            <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
+            <div>
+                <h4>Telephone</h4>
+                <p class="mb-2">(+012) 3456 7890</p>
+            </div>
+        </div>
+    </div>
+</div>

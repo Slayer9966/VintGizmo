@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %} 
+<head>
+ <link rel="stylesheet" href="{% static 'css/products.css' %}">
+</head>
+<!-- Modals  -->
+
+
+ <!-- Modal for updating products -->
+ <div class="modal fade" id="ChangeModal" tabindex="-1" aria-labelledby="ChangeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ChangeModalLabel">Change Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'ChangeStatus' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="order_id">
+                    <div class="mb-3">
+                        <select name="status" id="status" class="form-select">
+                            <option value="pending">Pending</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Change</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+ <!-- Modal for updating products ends -->
+ <!-- Modal for adding products -->
+
+<!-- End of product add modal -->
+
+
+ 
+    <div class="container ">
+        <div class="container-fluid pt-4 px-4 " >
+            <div class="row  g-4">
+                {% if messages %}
+                                {% for message in messages %}
+                                    {% if 'error' in message.tags %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <i class="fa fa-exclamation-circle me-2"></i>{{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <i class="fa fa-check-circle me-2"></i>{{ message }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                
+                
+                
+                <div class="col-12">
+                    <div class="bg-secondary rounded h-100 p-4">
+                        <div class="search-container">
+                            
+                            <input class="form-control bg-dark border-0 search-input" type="search" placeholder="Search" id="searchInput">
+                        </div>
+                        <br>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table" >
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Order Id</th>
+                                        <th scope="col">Total Cost</th>
+                                        <th scope="col">Discounts</th>
+                                        <th scope="col">Payment Method</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Change Status</th>
+                                        <th scope="col">More Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    {% for order in completed_orders %}
+                                        <tr>
+                                            <td>{{ order.order_id }}</td>
+                                            <td>{{ order.total_cost }}</td>
+                                            <td>{{ order.discounts }}</td>
+
+                                            <td>{{ order.payment_method }}</td>
+                                            <td>{{ order.status }}</td>
+                                            <td>{{ order.email }}</td>
+                                            <td>{{ order.created_at }}</td>
+                                            <td>
+                                                <a style="cursor:pointer;" class="update" data-id="{{ order.id }}">
+                                                    <img src="{% static 'icons/update.png' %}" alt="">
+                                                </a> |
+                                                <a href="{% url 'DeleteOrder' order.id %}">
+                                                    <img src="{% static 'icons/delete.png' %}" alt="">
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{% url 'Order_Item' order.id %}">
+                                                    <button class="btn btn-primary">
+                                                        <img src="{% static 'icons/details.png' %}" alt="">
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="col-sm-12 col-xl-12" style="height:85px;">
+                    <div class="bg-secondary rounded h-100 p-4 align-items-center justify-content-center">
+                        <div class="btn-toolbar justify-content-center" role="toolbar">
+                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-primary">1</button>
+                                <button type="button" class="btn btn-primary">2</button>
+                                <button type="button" class="btn btn-primary">3</button>
+                                <button type="button" class="btn btn-primary">4</button>
+                            </div>
+                            <div class="btn-group me-2" role="group" aria-label="Second group">
+                                <button type="button" class="btn btn-secondary">5</button>
+                                <button type="button" class="btn btn-secondary">6</button>
+                                <button type="button" class="btn btn-secondary">7</button>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Third group">
+                                <button type="button" class="btn btn-info">8</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="{% static 'js/order.js' %}"></script>
+{% endblock %}

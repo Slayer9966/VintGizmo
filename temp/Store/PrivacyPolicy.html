@@ -1,0 +1,65 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container py-5">
+
+        <div class="privacy-policy" style="margin-top:70px;">
+            <h1>Privacy Policy</h1>
+            <p><strong>Effective Date:</strong> [Date]</p>
+            
+            <h2>1. Introduction</h2>
+            <p>Welcome to VintGizmo. Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website <a href="https://www.VintGizmo.com">VintGizmo.com</a> and make purchases. By using our website, you agree to the terms of this Privacy Policy.</p>
+        
+            <h2>2. Information We Collect</h2>
+            <ul>
+                <li><strong>Personal Information:</strong> When you make a purchase, we collect personal information such as your name, email address, phone number, and shipping address.</li>
+                <li><strong>Payment Information:</strong> We use cash on delivery as our payment method, so we do not store your payment information.</li>
+                <li><strong>Order History:</strong> We keep records of your purchases and order history for processing and customer service purposes.</li>
+                <li><strong>Technical Data:</strong> We collect information about your device and browsing activity, including IP addresses, browser types, and access times.</li>
+            </ul>
+        
+            <h2>3. How We Use Your Information</h2>
+            <p>We use your information to:</p>
+            <ul>
+                <li>Process and fulfill your orders.</li>
+                <li>Communicate with you about your orders and provide customer support.</li>
+                <li>Improve our website and services.</li>
+                <li>Send promotional information and updates about our products, if you have opted-in to receive them.</li>
+            </ul>
+        
+            <h2>4. How We Share Your Information</h2>
+            <p>We do not sell or rent your personal information to third parties. However, we may share your information with:</p>
+            <ul>
+                <li><strong>Service Providers:</strong> Third-party vendors who assist with order fulfillment, shipping, and other services.</li>
+                <li><strong>Legal Compliance:</strong> Authorities when required by law or to protect our legal rights.</li>
+            </ul>
+        
+            <h2>5. Data Security</h2>
+            <p>We implement reasonable security measures to protect your personal information from unauthorized access and use. However, no online transmission or storage method is completely secure, and we cannot guarantee absolute security.</p>
+        
+            <h2>6. Cookies and Tracking Technologies</h2>
+            <p>We use cookies and similar tracking technologies to enhance your experience on our website. You can adjust your browser settings to refuse cookies, but this may affect the functionality of our website.</p>
+        
+            <h2>7. Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access and update your personal information.</li>
+                <li>Opt-out of receiving promotional communications.</li>
+                <li>Request deletion of your personal information, subject to legal and contractual restrictions.</li>
+            </ul>
+        
+            <h2>8. Changes to This Privacy Policy</h2>
+            <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date. We encourage you to review this Privacy Policy periodically.</p>
+        
+            <h2>9. Contact Us</h2>
+            <p>If you have any questions or concerns about this Privacy Policy or our practices, please contact us at:</p>
+            <strong>            <a href="{% url 'contact' %}"> Contact Us</a>
+            </strong><br>          
+        </div>
+        </div>
+        </div>
+        
+
+{% endblock %}

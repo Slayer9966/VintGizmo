@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}  
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-100 bg-secondary rounded align-items-center justify-content-center mx-0">
+        <div class="col-md-8">
+            <!-- Receipt Container -->
+            <div class="receipt-container">
+                <!-- Receipt Header -->
+                <div class="receipt-header text-center mb-4">
+                    <h1 class="text-primary">VintGizmo</h1>
+                </div>
+                <!-- Delivery Address -->
+                <div class="receipt-address mb-4">
+                    <h4 class="text-secondary">Delivery Address:</h4>
+                    <p class="address-details">
+                        {{ order.address }}
+                    </p>
+                </div>
+                <!-- Items Purchased -->
+                <div class="receipt-items mb-4">
+                    <h4 class="text-secondary">Items Purchased:</h4>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr class="table-primary">
+                                <th>Product Name</th>
+                                <th>Variation Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.variation.name }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>${{ item.price }}</td>
+                                    <td>${{ item.total_price }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Receipt Footer -->
+                <div class="receipt-footer text-center">
+                    <h4 class="text-success">Total Amount: ${{ order.total_cost }}</h4>
+                    <p class="small text-muted">This amount includes all applicable taxes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .receipt-container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        max-width: 700px;
+        margin: auto;
+    }
+    .receipt-header h1 {
+        font-size: 32px;
+        font-weight: bold;
+    }
+    .receipt-header p {
+        font-size: 16px;
+        margin-top: -10px;
+    }
+    .receipt-address h4 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #007bff;
+    }
+    .address-details {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    .receipt-items table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .receipt-items table th,
+    .receipt-items table td {
+        padding: 12px;
+        text-align: center;
+    }
+    .receipt-items table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+    .receipt-items table td {
+        font-size: 16px;
+    }
+    .receipt-items .table-primary th {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+    .receipt-footer h4 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #28a745;
+    }
+    .receipt-footer p {
+        font-size: 14px;
+    }
+</style>
+
+{% endblock %}

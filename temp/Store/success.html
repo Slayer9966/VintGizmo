@@ -1,0 +1,77 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid py-5">
+    <div class="container text-center py-5">
+        <div class="card shadow-lg p-4">
+            <div class="card-body">
+                <h1 class="display-4 text-success mb-4">Thank You for Your Purchase!</h1>
+                <p class="lead">Your order has been successfully placed.</p>
+                <hr class="my-4">
+    
+                <div class="order-summary mt-5">
+                    <h3 class="text-primary">Order Summary</h3>
+                    <table class="table table-bordered mt-3">
+                        <tr>
+                            <th>Total Amount:</th>
+                            <td>${{ total_amount }}</td>
+                        </tr>
+                        <tr>
+                            <th>Discount Amount:</th>
+                            <td>${{discount_amount }}</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping Cost:</th>
+                            <td>${{ shipping_cost }}</td>
+                        </tr>
+                        <tr class="font-weight-bold">
+                            <th>Grand Total:</th>
+                            <td>{{grand_total}}</td>
+                        </tr>
+                    </table>
+                </div>
+    
+                <div class="mt-5">
+                    <a href="{% url 'Home' %}" class="btn btn-primary btn-lg">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 70px;
+    }
+    .display-4 {
+        font-size: 2.5rem;
+        font-weight: 300;
+    }
+    .lead {
+        font-size: 1.25rem;
+        font-weight: 300;
+    }
+    .order-summary {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    .order-summary h3 {
+        font-weight: 600;
+    }
+    .table th, .table td {
+        font-size: 1.1rem;
+    }
+    .btn-lg {
+        font-size: 1.2rem;
+        padding: 12px 24px;
+    }
+</style>
+{% endblock %}

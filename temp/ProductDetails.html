@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %} 
+<head>
+ <link rel="stylesheet" href="{% static 'css/products.css' %}">
+</head>
+ <!-- Modals  -->
+<div>
+    <div class="modal fade" id="ImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Image</h5>
+            
+                </div>
+                <form enctype="multipart/form-data" method="post" action="{% url 'AddImage' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="product_image_id">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Upload Pic</label>
+                            <input name="product_image" class="form-control bg-dark" type="file" id="formFile" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100%; height: auto;">
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cl_i btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>>
+    </div> 
+    
+    <!-- Modal for adding images ends -->
+     <!-- Modal for updating products -->
+      <div class="modal fade" id="exampleModalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Variation</h5>
+            
+                </div>
+                <form action="{% url 'UpdateVariation' %}" method="post" >
+                    {% csrf_token %}
+                    <div class="modal-body">
+                       
+                        <input type="hidden" id="product_id" name="id">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="name@example.com">
+                            <label for="floatingInput">Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="quantity" name="quantity" placeholder="name@example.com">
+                            <label for="floatingInput">Quantity</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="cost_price" name="cost_price" placeholder="name@example.com">
+                            <label for="floatingInput">Cost Price</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="sales_price" name="sales_price" placeholder="name@example.com">
+                            <label for="floatingInput">Sales Price</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="sale_price" name="sale_price" placeholder="name@example.com">
+                            <label for="floatingInput">Sale Price</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="warranty" name="warranty" placeholder="name@example.com">
+                            <label for="floatingInput">Warranty</label>
+                        </div>
+                        
+                        <div class="form-floating">
+                            <textarea class="form-control" name="description" placeholder="Leave a comment here" id="description" style="height: 150px;"></textarea>
+                            <label for="floatingTextarea">Description</label>
+                        </div>
+                        <div class="stock-management mt-4">
+                            <h6>Stock Management Options</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="stock_option" id="add_new_stock" value="add_new_stock">
+                                <label class="form-check-label" for="add_new_stock">
+                                    Add a new stock with this quantity
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="stock_option" id="no_change_stock" value="no_change_stock" checked>
+                                <label class="form-check-label" for="no_change_stock">
+                                    No change in stock quantity
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="stock_option" id="update_the_quantity" value="update_the_quantity" checked>
+                                <label class="form-check-label" for="no_change_stock">
+                                    Update Quantity
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="stock_option" id="add_to_existing_stock" value="add_to_existing_stock">
+                                <label class="form-check-label" for="add_to_existing_stock">
+                                    Add only the quantity to the last stored stock
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary del" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+    
+     <!-- Modal for updating products ends -->
+     <!-- Modal for adding products -->
+     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Products</h5>
+            
+                </div>
+                <form action="{% url 'AddVariation' %}" method="post" >
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" name="product_id" value="{{product.id}}">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" name="name" placeholder="name@example.com">
+                            <label for="floatingInput">Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="floatingInput" name="quantity" placeholder="name@example.com">
+                            <label for="floatingInput">Quantity</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="floatingInput" name="cost_price" placeholder="name@example.com">
+                            <label for="floatingInput">Cost Price</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="floatingInput" name="sales_price" placeholder="name@example.com">
+                            <label for="floatingInput">Sales Price</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="floatingInput" name="sale_price" placeholder="name@example.com">
+                            <label for="floatingInput">Sale Price</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" id="floatingInput" name="warranty" placeholder="name@example.com">
+                            <label for="floatingInput">Warranty</label>
+                        </div>
+                        <div class="form-floating">
+                            <textarea class="form-control" name="description" placeholder="Add Description"  style="height: 150px;"></textarea>
+                            <label for="floatingTextarea">Description</label>
+                        </div>
+                        
+                    <div class="modal-footer">
+                        <button type="button" class="close_add btn btn-secondary "  data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+    <!-- End of product add modal -->
+    
+    
+    <!-- End for the modals -->
+</div>
+
+ 
+
+ 
+    <div class=" container-fluid pt-4 px-4"  >
+        
+        <div class="row   g-4">
+            {% if messages %}
+                            {% for message in messages %}
+                                {% if 'error' in message.tags %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="fa fa-exclamation-circle me-2"></i>{{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="fa fa-check-circle me-2"></i>{{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+            
+            <div class="col-12 ">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <div class="search-container">
+                        <button type="button" class="open btn btn-primary m-2" >
+                            <i class="fa-solid fa-plus me-2"></i>Add
+                        </button>
+                        <input class="form-control bg-dark border-0 search-input" type="search" placeholder="Search" id="searchInput">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table" >
+                            <thead>
+                                <tr>
+                                
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Sales Price</th>
+                                    <th scope="col">Cost Price</th>
+                                    <th scope="col">Sale Price</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Add Images</th>
+                                    <th scope="col">See More</th>
+                                 
+                                   
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                             {% for product in variations %}
+                              <tr>
+                                <td >{{product.name}}</td>
+                                <td >{{product.quantity}}</td>
+                                <td>{{product.sales_price}}</td>
+                                <td>{{product.cost_price}}</td>
+                                <td>{{product.sale_price}}</td>
+                                <td >
+                                    <a style="cursor:pointer;" class="update" data-id="{{ product.id }}"><img src="{% static 'icons/update.png' %}" alt=""></a> | <a  href="{% url 'Delete' product.id %}"><img src="{% static 'icons/delete.png' %}" alt=""></a>
+                                </td>
+                                <td class="text-center">
+                                    <button style="cursor:pointer;" data-id="{{product.id}}" class=" AddImage btn btn-primary" >
+                                        <img src="{% static 'icons/addImage.png' %}" alt=""> 
+                                     </button>
+                              </td>
+                                <td class="text-center"><a href="{% url 'V_D' product.id %}">
+                                    <button class="btn btn-primary" >
+                                        <img src="{% static 'icons/details.png' %}" alt="">   
+                                     </button>
+                                </a></td>
+                                <td class="text-center"><a href="{% url 'ReviewPage' product.id %}">
+                                    <button class="btn btn-primary" >
+                                        <img src="{% static 'icons/details.png' %}" alt="">   
+                                     </button>
+                                </a></td>
+                                
+                            </tr>
+                               
+                               {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination -->
+          
+           <div >
+            
+                <div class="col-sm-12 col-xl-12 " style="height:85px; ">
+                    <div class="bg-secondary rounded h-100 p-4 align-items-center justify-content-center">
+                        <div class="btn-toolbar justify-content-center" role="toolbar">
+                            <div class="btn-group me-2" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-primary">1</button>
+                                <button type="button" class="btn btn-primary">2</button>
+                                <button type="button" class="btn btn-primary">3</button>
+                                <button type="button" class="btn btn-primary">4</button>
+                            </div>
+                            <div class="btn-group me-2" role="group" aria-label="Second group">
+                                <button type="button" class="btn btn-secondary">5</button>
+                                <button type="button" class="btn btn-secondary">6</button>
+                                <button type="button" class="btn btn-secondary">7</button>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Third group">
+                                <button type="button" class="btn btn-info">8</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               </div>
+
+            </div>
+           
+        </div>
+    </div>
+
+ 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/product_Detail.js' %}"></script>
+
+{% endblock %}

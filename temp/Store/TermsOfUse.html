@@ -1,0 +1,50 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="terms-of-use" style="margin-top: 70px;;">
+            <h1>Terms of Use</h1>
+            <p><strong>Effective Date:</strong> [Date]</p>
+            
+            <h2>1. Introduction</h2>
+            <p>Welcome to VintGizmo. By accessing or using our website <a href="https://www.VintGizmo.com">VintGizmo.com</a>, you agree to comply with and be bound by the following terms and conditions. If you do not agree with these terms, please do not use our website.</p>
+        
+            <h2>2. Use of the Website</h2>
+            <p>VintGizmo grants you a limited, non-exclusive, non-transferable license to access and use our website for personal, non-commercial use. You agree not to use our website for any illegal or unauthorized purpose.</p>
+        
+            <h2>3. User Accounts</h2>
+            <p>You may be required to create an account to access certain features of our website. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. Notify us immediately if you suspect any unauthorized use of your account.</p>
+        
+            <h2>4. Product Information and Availability</h2>
+            <p>We strive to provide accurate product information on our website. However, we do not guarantee that the information is complete, current, or error-free. Product availability is subject to change without notice.</p>
+        
+            <h2>5. Orders and Payments</h2>
+            <p>All orders are subject to acceptance by VintGizmo. We reserve the right to refuse or cancel any order for any reason. We only accept cash on delivery as a payment method, and you are responsible for paying the total amount due upon delivery.</p>
+        
+            <h2>6. Intellectual Property</h2>
+            <p>All content on our website, including text, images, logos, and software, is the property of VintGizmo or its licensors and is protected by intellectual property laws. You may not reproduce, distribute, or otherwise use any content from our website without our prior written consent.</p>
+        
+            <h2>7. Limitation of Liability</h2>
+            <p>To the fullest extent permitted by law, VintGizmo shall not be liable for any indirect, incidental, special, or consequential damages arising out of or in connection with your use of our website or products. Our total liability shall not exceed the amount you paid for the product or service in question.</p>
+        
+            <h2>8. Indemnification</h2>
+            <p>You agree to indemnify, defend, and hold harmless VintGizmo, its affiliates, and their respective officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses arising out of your use of our website or violation of these terms.</p>
+        
+            <h2>9. Changes to the Terms</h2>
+            <p>We may update these Terms of Use from time to time. Any changes will be posted on this page with an updated effective date. Your continued use of our website following the posting of changes constitutes your acceptance of such changes.</p>
+        
+            <h2>10. Governing Law</h2>
+            <p>These Terms of Use shall be governed by and construed in accordance with the laws of [Your Country/State]. Any disputes arising out of or in connection with these terms shall be subject to the exclusive jurisdiction of the courts in [Your Jurisdiction].</p>
+        
+            <h2>11. Contact Us</h2>
+            <p>If you have any questions about these Terms of Use, please contact us at:</p>
+            <strong>            <a href="{% url 'contact' %}"> Contact Us</a>
+            </strong><br>
+            
+        </div>
+        </div>
+        </div>
+
+{% endblock %}

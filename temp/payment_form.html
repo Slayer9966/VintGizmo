@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to JazzCash...</title>
+    {% load static %}
+</head>
+<body>
+    <p>Redirecting to payment gateway, please wait...</p>
+    <form id="jazzcash-payment-form" action="{{ action_url }}" method="post">
+        {% csrf_token %}
+        {% for key, value in post_data.items %}
+            <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        <button type="submit">click</button>
+    </form>
+    
+</body>
+</html>

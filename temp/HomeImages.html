@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block content %} 
+<head>
+ <link rel="stylesheet" href="{% static 'css/products.css' %}">
+</head>
+<!-- Modals  -->
+<div class="modal fade" id="HomeBannerModal" tabindex="-1" aria-labelledby="HomeBannerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="HomeBannerModalLabel">Edit Home Banner</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'update_home_image' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="home_image_id" name="home_image_id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="image_text" class="form-label">Main Text</label>
+                        <input type="text" class="form-control" id="image_text" name="image_text" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="banner_image" class="form-label">Banner Image</label>
+                        <input type="file" class="form-control" id="banner_image" name="image" accept="image/*">
+                        <img id="current_image" src="" alt="Current Image" style="width: 100px; height: auto; display: none;">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+ <!-- Modal for addig hoe iages -->
+ <div class="modal fade" id="HomeImageModal" tabindex="-1" aria-labelledby="HomeImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="HomeImageModalLabel">Save Home Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'save_home_image' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="image_text" class="form-label">Image Text</label>
+                        <input type="text" class="form-control" id="image_text" name="image_text" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+ <!-- Modal for updating products ends -->
+ <!-- Modal for adding products -->
+
+<!-- End of product add modal -->
+
+
+ 
+<div class="container-fluid pt-4 px-4" >
+    <div class="row  g-4">
+        {% if messages %}
+                        {% for message in messages %}
+                            {% if 'error' in message.tags %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>{{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-check-circle me-2"></i>{{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+        
+        
+        
+        <div class="col-12" >
+            <div class="bg-secondary rounded h-100 p-4">
+                <div class="search-container">
+                    
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#HomeImageModal">
+                        Add Home Banner
+                    </button>                </div>
+                <br>
+                <br>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Main Text</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            {% for home_image in home_images %}
+                                <tr>
+                                    <td>{{ home_image.image_text }}</td>
+                                    <td>
+                                        {% if home_image.image %}
+                                            <img src="{{ home_image.image.url }}" alt="Home Image" style="width: 100px; height: auto;">
+                                        {% else %}
+                                            No Image
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a style="cursor:pointer;" class="update" data-bs-toggle="modal" data-bs-target="#HomeBannerModal"
+                                           data-id="{{ home_image.id }}" data-image_text="{{ home_image.image_text }}" data-image="{{ home_image.image.url }}">
+                                            <button class="btn btn-primary">
+                                                Edit
+                                            </button>
+                                        </a> |
+                                        <a href="{% url 'delete_home_image' home_image.id %}">
+                                            <button class="btn btn-danger">
+                                                Delete
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3">No Home Images Found</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div class="col-sm-12  col-xl-12" style="height:85px ;">
+            <div class=" bg-secondary rounded h-100 p-4 align-items-center justify-content-center">
+                <div class="btn-toolbar  justify-content-center" role="toolbar">
+                    <div class="btn-group me-2" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-primary">1</button>
+                        <button type="button" class="btn btn-primary">2</button>
+                        <button type="button" class="btn btn-primary">3</button>
+                        <button type="button" class="btn btn-primary">4</button>
+                    </div>
+                    <div class="btn-group me-2" role="group" aria-label="Second group">
+                        <button type="button" class="btn btn-secondary">5</button>
+                        <button type="button" class="btn btn-secondary">6</button>
+                        <button type="button" class="btn btn-secondary">7</button>
+                    </div>
+                    <div class="btn-group " role="group" aria-label="Third group">
+                        <button type="button" class="btn btn-info">8</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const updateButtons = document.querySelectorAll('.update');
+        
+            updateButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+                    const imageText = this.getAttribute('data-image_text');
+                    const imageUrl = this.getAttribute('data-image');
+        
+                    document.getElementById('home_image_id').value = id;
+                    document.getElementById('image_text').value = imageText;
+        
+                    const currentImage = document.getElementById('current_image');
+                    if (imageUrl) {
+                        currentImage.src = imageUrl;
+                        currentImage.style.display = 'block';
+                    } else {
+                        currentImage.style.display = 'none';
+                    }
+                });
+            });
+        });
+        </script>
+        
+
+
+{% endblock %}

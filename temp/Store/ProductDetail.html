@@ -1,0 +1,310 @@
+
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <style>
+        .star {
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star1 {
+            cursor: pointer;
+            color: #ccc;
+        }
+        .star.text-warning {
+            color: #f39c12; /* Gold color for selected stars */
+        }
+        /* Style for full stars */
+/* Container for review items */
+.review-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap if needed */
+    margin-bottom: 1rem; /* Space between review items */
+}
+
+/* Image styling */
+.review-container img {
+    flex-shrink: 0; /* Prevent the image from shrinking */
+    margin-right: 1rem; /* Space between image and text */
+}
+
+/* Review text container */
+.review-text {
+    flex: 1; /* Allow text to take up remaining space */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+/* Date text styling */
+.date-text {
+    font-size: 14px; /* Adjust font size */
+    margin-bottom: 0.5rem; /* Space below date */
+}
+
+/* Review title and stars */
+.review-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Review stars */
+.review-stars {
+    display: flex;
+}
+
+/* Review text with line breaks handled */
+.review-content {
+    overflow-wrap: break-word; /* Break long words */
+    word-wrap: break-word; /* For older browsers */
+    word-break: break-word; /* Optional for additional breaks */
+    margin: 0; /* Ensure no extra margin */
+    padding: 0; /* Ensure no extra padding */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .review-container {
+        flex-direction: column; /* Stack image and text vertically on smaller screens */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .review-container img {
+        margin-right: 0;
+        margin-bottom: 1rem; /* Add margin at the bottom of the image */
+    }
+}
+.fa-star.rated,
+.fa-star-half-o.rated {
+    color: #f39c12; /* Color for filled stars (e.g., gold) */
+}
+.fa-star.uncolored {
+    color: #ddd; /* Slightly different shade for empty stars */
+}
+
+
+        </style>
+</head>
+<!-- modals for messages -->
+
+<!-- end modal -->
+        <!-- Single Page Header start -->
+       <br>
+       <br>
+        <!-- Single Page Header End -->
+
+
+        <!-- Single Product Start -->
+        <div class="container-fluid py-5 mt-5">
+            <div class="container py-5">
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-8 col-xl-9">
+                        <div class="row g-4">
+                            
+                            <div class="col-lg-6">
+                                
+                                    <div class="col-md-12 col-lg-12">
+                                        <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
+                                            <div class="carousel-inner" role="listbox">
+                                                {% for image in first_variation.images.all %}
+                                                <div class="carousel-item{% if forloop.first %} active{% endif %} rounded">
+                                                    <img src="{{ image.image.url }}" class="img-fluid w-100 h-100 bg-secondary rounded" alt="Variation image">
+                                                </div>
+                                            {% empty %}
+                                               
+                                            {% endfor %}                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                            <div class="col-lg-6">
+                                <h4  class="fw-bold mb-3">{{ product.name }}</h4>
+                                <p class="mb-3">Category: {{ product.category.name }}</p>
+                                <p class="mb-3" id="product-name">Variation: {{ first_variation.name }}</p>
+                                <h5 id="product-price" class="fw-bold mb-3">Rs.{{ first_variation.sales_price }}</h5>
+                                <div class="d-flex mb-4">
+                                    {% for i in star_range %}
+                                    <i class="fa fa-star {% if i <= average_rating %}text-warning{% else %}star1{% endif %}"></i>
+                                {% endfor %}
+                                </div>
+                                <div class="input-group quantity mb-5" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm text-center border-0" id="quantity" value="">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="{{product.id}}" id="product_id">
+                                <input type="hidden" value="{{first_variation.id}}" id="variation_id">
+                                <a id="add-to-cart-button" style="cursor:pointer;" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                            </div>
+                            <div class="col-lg-12 col-xl-12">
+                                <nav>
+                                    <div class="nav nav-tabs mb-3">
+                                        <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                            aria-controls="nav-about" aria-selected="true">Description</button>
+                                        <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                            aria-controls="nav-mission" aria-selected="false">Reviews</button>
+                                    </div>
+                                </nav>
+                                <div class="tab-content mb-5">
+                                    <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                        <p id="product-description">{{ first_variation.description }}</p>
+                                    </div>
+                                    <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                        
+                                        
+                                        <button id="see-all-button" type="button" class="btn border border-secondary text-primary rounded-pill px-4 py-3" style="display: none;">See All</button>
+
+                                    </div>
+
+                                    <div class="tab-pane" id="nav-vision" role="tabpanel">
+                                        <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam
+                                            amet diam et eos labore. 3</p>
+                                        <p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
+                                            Clita erat ipsum et lorem et sit</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if user %}
+                            <form id="review-form"  method="post">
+                                <h4 class="mb-5 fw-bold">Leave a Reply</h4>
+                                {% csrf_token %}
+                                <div class="row g-4">
+                                    <input type="hidden" id="variation" value="{{first_variation.id}}" name="product_id">
+                                    <input type="hidden" id="rating" name="rating" value="0">
+                                    <div class="col-lg-6">
+                                        <div class="border-bottom rounded">
+                                            <input type="text" name="name" class="form-control border-0 me-4" placeholder="Your Name *" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="border-bottom rounded">
+                                            <input type="email" name="email" class="form-control border-0" placeholder="Your Email *" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="border-bottom rounded my-4">
+                                            <textarea name="review" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="d-flex justify-content-between py-3 mb-5">
+                                            <div class="d-flex align-items-center">
+                                                <p class="mb-0 me-3">Please rate:</p>
+                                                <div class="d-flex align-items-center" style="font-size: 24px;">
+                                                    <i class="fa fa-star star" data-value="1"></i>
+                                                    <i class="fa fa-star star" data-value="2"></i>
+                                                    <i class="fa fa-star star" data-value="3"></i>
+                                                    <i class="fa fa-star star" data-value="4"></i>
+                                                    <i class="fa fa-star star" data-value="5"></i>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn border border-secondary text-primary rounded-pill px-4 py-3">Post Comment</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            {% else %}
+                            <h2>You have to <a style="text-decoration:underline;" href="{% url 'loginPage' %}">Login</a> to review</h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xl-3">
+                        <div class="row g-4 fruite">
+                            <div class="col-lg-12">
+                                <div class="input-group w-100 mx-auto d-flex mb-4">
+                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                </div>
+                                <div class="mb-4">
+                                    <h4>Variations</h4>
+                                    <ul class="list-unstyled fruite-categorie">
+                                       
+                                        {% for variation in variations %}
+    <li id="variation-{{ variation.id }}" class="variation-item">
+        <div class="d-flex justify-content-between fruite-name">
+            <a style="cursor:pointer;"><i class="fas fa-apple-alt me-2 "></i>{{ variation.name }}</a>
+            <span>{{ variation.quantity }}</span>
+        </div>
+    </li>
+    {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <h1 class="fw-bold mb-0">Related products</h1>
+                <div class="vesitable">
+                    <div class="owl-carousel vegetable-carousel justify-content-center">
+                        
+                        {% for item in products_with_variations %}
+                        
+                            <div style="cursor:pointer;" data-url="{% url 'Detail' item.product.id %}" class="border border-primary rounded position-relative vesitable-item">
+                                <div class="vesitable-img">
+                                    <img src="{{item.image.image.url}}" class="img-fluid w-100 rounded-top" alt="">
+                                </div>
+                                <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">{{item.product.category}}</div>
+                                <div class="p-4 pb-0 rounded-bottom">
+                                    <h4>{{item.product.name}}</h4>
+                                    <p>{{ item.variation.description}}</p>
+                                    <div class="d-flex justify-content-between flex-lg-wrap">
+                                        <p class="text-dark fs-5 fw-bold">${{ item.variation.sales_price }}</p>
+                                       
+                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                       
+                        
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Single Product End -->
+        <script type="text/javascript">
+            var submitReviewUrl = "{% url 'submit_review' %}";
+            var Review="{% url 'fetch_reviews' id=product.id %}";
+            
+            var Product_id="{{product.id}}"
+        </script>
+<script src="{% static 'store/js/ProductDetail.js' %}"></script>
+<script src="{% static 'store/js/Review.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const containers = document.querySelectorAll('.vesitable-item');
+  
+  containers.forEach(container => {
+      container.addEventListener('click', function() {
+          const url = this.getAttribute('data-url');
+          if (url) {
+              window.location.href = url;
+          }
+      });
+  });
+});
+
+
+</script>
+        <!-- Footer Start -->
+        {% endblock %}  

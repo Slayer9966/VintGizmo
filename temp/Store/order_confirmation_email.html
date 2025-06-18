@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h2>Thank you for your order!</h2>
+    <p>Hi {{ customer }},</p>
+    <p>Your order has been successfully placed. Here are the details:</p>
+
+    <h4>Order Summary:</h4>
+    {% for order in orders %}
+    <h5>Order Code: {{ order.order_id }}</h5>
+    <ul>
+        {% for item in order_items %}
+            {% if item.order.id == order.id %}
+            <li>
+                <strong>Product:</strong> {{ item.product.name }}<br>
+                <strong>Variation:</strong> {{ item.variation.name }}<br>
+                <strong>Quantity:</strong> {{ item.quantity }}<br>
+                <strong>Price:</strong> ${{ item.price }}<br>
+                <strong>Total:</strong> ${{ item.total_price }}<br>
+                <strong>Grand Total:</strong> ${{ item.discounted_price }}<br>
+
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% endfor %}
+
+    <h4>Payment Summary:</h4>
+    <ul>
+        <li><strong>Total Amount:</strong> ${{ total_amount }}</li>
+        <li><strong>Discount:</strong> -${{ discount_amount }}</li>
+        <li><strong>Shipping Cost:</strong> ${{ shipping_cost }}</li>
+        <li><strong>Grand Total:</strong> ${{ grand_total }}</li>
+    </ul>
+
+    <p>We will notify you once your order has been shipped. If you have any questions, feel free to contact us at vintgizmo_support@gmail.com.</p>
+    <p>Best regards,<br>VintGizmo</p>
+</body>
+</html>

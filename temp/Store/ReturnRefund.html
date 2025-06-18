@@ -1,0 +1,45 @@
+{% extends 'Store/base1.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="refund-policy" style="margin-top: 70px;">
+            <h1>Refund Policy</h1>
+            <p><strong>Effective Date:</strong> [Date]</p>
+            
+            <h2>1. Return and Refund Policy</h2>
+            <p>At VintGizmo, we want you to be completely satisfied with your purchase. If you are not satisfied with your order, you can return or request a refund within 3 days after delivery.</p>
+        
+            <h2>2. Return Eligibility</h2>
+            <p>To be eligible for a return, the following conditions must be met:</p>
+            <ul>
+                <li>The return request must be made within 3 days of the delivery date.</li>
+                <li>The item must be unused, in its original packaging, and in the same condition that you received it.</li>
+                <li>The return request must include proof of purchase, such as a receipt or order number.</li>
+            </ul>
+        
+            <h2>3. How to Request a Return or Refund</h2>
+            <p>If you wish to return an item or request a refund, please contact us at:</p>
+            <p><strong>Phone:</strong> [Your Phone Number]</p>
+            <p>Provide your order number, details of the item you wish to return, and the reason for the return. Our customer service team will guide you through the return process and provide further instructions.</p>
+        
+            <h2>4. Refund Process</h2>
+            <p>Once we receive and inspect the returned item, we will process your refund. Refunds will be issued to the original payment method used at the time of purchase. Please note that it may take a few business days for the refund to reflect in your account.</p>
+        
+            <h2>5. Non-Refundable Items</h2>
+            <p>Some items are non-refundable, including but not limited to:</p>
+            <ul>
+                <li>Items that are damaged or altered after delivery.</li>
+                <li>Items that were purchased on sale or with a discount not applicable to returns.</li>
+            </ul>
+        
+            <h2>6. Contact Us</h2>
+            <p>If you have any questions or need assistance with a return or refund, please contact us at:</p>
+            <strong>            <a href="{% url 'contact' %}"> Contact Us</a>
+            </strong><br>            <p>Our customer service team is available to help you during our business hours.</p>
+        </div>
+        </div>
+        </div>
+
+{% endblock %}

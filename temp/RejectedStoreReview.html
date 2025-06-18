@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% block content %} 
+<head>
+ <link rel="stylesheet" href="{% static 'css/products.css' %}">
+</head>
+<!-- Modals  -->
+<div class="modal fade" tabindex="-1" id="UpdateReviewModal" aria-labelledby="UpdateReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'update_review' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="review_id" id="update-review-id">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" id="update-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Profession</label>
+                        <input type="text" class="form-control" name="profession" id="update-profession">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Review</label>
+                        <textarea class="form-control" name="review" id="update-review" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-control" name="status" id="update-status">
+                            <option value="approved">Approved</option>
+                            <option value="pending">Pending</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <input type="file" class="form-control" name="image" id="update-image" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+ <!-- Modal for addig hoe iages -->
+ <div class="modal fade" id="StoreReviewAdd" tabindex="-1" aria-labelledby="ReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Save Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'create_review' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Profession</label>
+                        <input type="text" class="form-control" name="profession">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Review</label>
+                        <textarea class="form-control" name="review" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <input type="file" class="form-control" name="image" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+ <!-- Modal for updating products ends -->
+ <!-- Modal for adding products -->
+
+<!-- End of product add modal -->
+
+
+ 
+<div class="container-fluid pt-4 px-4" >
+    <div class="row  g-4">
+        {% if messages %}
+                        {% for message in messages %}
+                            {% if 'error' in message.tags %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-exclamation-circle me-2"></i>{{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="fa fa-check-circle me-2"></i>{{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+        
+        
+        
+        <div class="col-12" >
+            <div class="bg-secondary rounded h-100 p-4">
+                <div class="search-container">
+                    
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#StoreReviewAdd">
+                        Add review
+                    </button>                </div>
+                <br>
+                <br>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Profession</th>
+                                <th scope="col">Review</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            {% for review in reviews %}
+                                <tr>
+                                    <td>{{ review.name }}</td>
+                                    <td>{{ review.profession }}</td>
+                                    <td>{{ review.review }}</td>
+                                    <td>
+                                        {% if review.image %}
+                                            <img src="{{ review.image.url }}" alt="Review Image" style="width: 100px; height: auto;">
+                                        {% else %}
+                                            No Image
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ review.status }}</td>
+                                    <td>
+                                        <a style="cursor:pointer;" class="update" data-bs-toggle="modal" data-bs-target="#UpdateReviewModal"
+                                           data-id="{{ review.id }}" data-name="{{ review.name }}" data-profession="{{ review.profession }}"
+                                           data-review="{{ review.review }}" {% if review.image %} data-image="{{ review.image.url }}" {% endif %} data-status="{{ review.status }}">
+                                            <button class="btn btn-primary">Edit</button>
+                                        </a> |
+                                        <a href="{% url 'delete_review' review.id %}">
+                                            <button class="btn btn-danger">Delete</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6">No Reviews Found</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div class="col-sm-12  col-xl-12" style="height:85px ;">
+            <div class=" bg-secondary rounded h-100 p-4 align-items-center justify-content-center">
+                <div class="btn-toolbar  justify-content-center" role="toolbar">
+                    <div class="btn-group me-2" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-primary">1</button>
+                        <button type="button" class="btn btn-primary">2</button>
+                        <button type="button" class="btn btn-primary">3</button>
+                        <button type="button" class="btn btn-primary">4</button>
+                    </div>
+                    <div class="btn-group me-2" role="group" aria-label="Second group">
+                        <button type="button" class="btn btn-secondary">5</button>
+                        <button type="button" class="btn btn-secondary">6</button>
+                        <button type="button" class="btn btn-secondary">7</button>
+                    </div>
+                    <div class="btn-group " role="group" aria-label="Third group">
+                        <button type="button" class="btn btn-info">8</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    const updateButtons = document.querySelectorAll('.update');
+
+    updateButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const reviewId = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const profession = this.getAttribute('data-profession');
+            const review = this.getAttribute('data-review');
+            const image = this.getAttribute('data-image');
+            const status = this.getAttribute('data-status');
+
+            document.getElementById('update-review-id').value = reviewId;
+            document.getElementById('update-name').value = name;
+            document.getElementById('update-profession').value = profession;
+            document.getElementById('update-review').value = review;
+            document.getElementById('update-status').value = status;
+
+            // If you want to display the current image in the modal, you can do something like this:
+            const imageInput = document.getElementById('update-image');
+            imageInput.value = ""; // Reset file input
+            if (image) {
+                const imgPreview = document.createElement('img');
+                imgPreview.src = image;
+                imgPreview.style.width = "100px";
+                imgPreview.style.marginTop = "10px";
+                imageInput.parentNode.appendChild(imgPreview);
+            }
+        });
+    });
+});
+</script>
+
+        
+
+
+{% endblock %}

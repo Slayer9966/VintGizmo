@@ -25,10 +25,10 @@
 - Vendors can promote sales, offers, and featured categories.
 
 ### 📊 Profit & Loss Insight
-- Vendors can view a breakdown of earnings and product-level performance (optional module structure).
+- Vendors can view a breakdown of earnings and product-level performance (optional module).
 
 ### 🔐 Secure & Scalable
-- Built with Django security features.
+- Built with Django’s robust security.
 - Designed to handle concurrent vendor activity and transactions.
 
 ---
@@ -37,7 +37,7 @@
 
 - **Backend:** Django 4.1.13
 - **Database:** PostgreSQL
-- **Frontend:** HTML/CSS/JS (Django templates)
+- **Frontend:** HTML/CSS/JavaScript (Django Templates)
 - **Email Service:** SMTP via Gmail
 
 ---
@@ -46,41 +46,48 @@
 
 ```bash
 VintGizmo/
-├── ecommerce/               # Main Django project
+├── ecommerce/             # Django project
 │   ├── settings.py
 │   └── ...
-├── VintGizmo/               # Core app with models, views, etc.
+├── VintGizmo/             # Core app (models, views, forms, etc.)
 │   └── ...
-├── static/                  # Static files
-├── media/                   # Uploaded media files
-├── templates/               # HTML templates
+├── static/                # Static assets
+├── media/                 # Uploaded media
+├── templates/             # HTML templates
 ├── requirements.txt
-├── manage.py
-└── .gitignore
-📦 Setup Instructions
-1. Clone the Repo
-bash
-Copy
-Edit
+├── .gitignore
+└── manage.py
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Slayer9966/VintGizmo.git
 cd VintGizmo/ecommerce
-2. Create & Activate a Virtual Environment
-bash
-Copy
-Edit
+```
+
+### 2. Create & Activate a Virtual Environment
+
+```bash
 python -m venv venv
 venv\Scripts\activate   # On Windows
-3. Install Dependencies
-bash
-Copy
-Edit
-pip install -r requirements.txt
-4. Configure PostgreSQL
-Make sure PostgreSQL is running and update DATABASES in settings.py if needed.
+```
 
-python
-Copy
-Edit
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure PostgreSQL
+
+Update your database settings in `settings.py`:
+
+```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -91,46 +98,69 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-5. Run Migrations
-bash
-Copy
-Edit
+```
+
+### 5. Run Migrations
+
+```bash
 python manage.py makemigrations
 python manage.py migrate
-6. Create Superuser
-bash
-Copy
-Edit
+```
+
+### 6. Create Superuser
+
+```bash
 python manage.py createsuperuser
-7. Run the Server
-bash
-Copy
-Edit
+```
+
+### 7. Run the Server
+
+```bash
 python manage.py runserver
-Visit http://127.0.0.1:8000/ to start using the app.
+```
 
-🔒 Admin Panel
-Visit: http://127.0.0.1:8000/admin/
-Use your superuser credentials to log in and manage vendors, products, banners, and more.
+Visit: http://127.0.0.1:8000/
 
-📧 Email Setup
-Email sending is configured via SMTP. Make sure you use a valid Gmail account or set environment variables for security:
+---
 
-python
-Copy
-Edit
+## 🔒 Admin Panel
+
+Visit: http://127.0.0.1:8000/admin/  
+Login using your superuser credentials to manage vendors, products, banners, and more.
+
+---
+
+## 📧 Email Setup
+
+Email is sent using Gmail SMTP. Add these to your `settings.py` or configure via environment variables:
+
+```python
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'your_email@gmail.com'
 EMAIL_HOST_PASSWORD = 'your_app_password'
-📌 Notes
-Payment gateway is not integrated yet.
+```
 
-Project is fully open for feature additions and enhancements.
+---
 
-📜 License
-This project is licensed under the MIT License — feel free to use and modify!
+## 📌 Notes
 
-🙋‍♂️ Author
-Syed Muhammad Faizan Ali
-📍 Islamabad, Pakistan
-📧 faizandev666@gmail.com
-🔗 GitHub | LinkedIn
+- Payment gateway is not integrated yet.
+- Fully open to future feature additions and enhancements.
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** — you are free to use and modify it.
+
+---
+
+## 🙋‍♂️ Author
+
+**Syed Muhammad Faizan Ali**  
+📍 Islamabad, Pakistan  
+📧 faizandev666@gmail.com  
+🔗 [GitHub](https://github.com/Slayer9966) | [LinkedIn](https://www.linkedin.com/in/faizan-ali-7b4275297/)

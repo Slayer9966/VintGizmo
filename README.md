@@ -119,16 +119,13 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Visit: http://127.0.0.1:8000/
 
----
 
-## 🔒 Admin Panel
 
-Visit: http://127.0.0.1:8000/admin/  
-Login using your superuser credentials to manage vendors, products, banners, and more.
 
----
+
+
+
 
 ## 📧 Email Setup
 

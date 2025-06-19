@@ -160,6 +160,6 @@ This project is licensed under the **MIT License** — you are free to use and m
 **Syed Muhammad Faizan Ali**  
 📍 Islamabad, Pakistan  
 📧 faizandev666@gmail.com  
-🔗 [GitHub](https://github.com/Slayer9966) | [LinkedIn](https://www.linkedin.com/in/faizan-ali-7b4275297/)
+🔗 [GitHub](https://github.com/Slayer9966) | [LinkedIn](https://www.linkedin.com/posts/faizan-ali-7b4275297_webdevelopment-django-ecommerce-activity-7250514730455359488-8Or3?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEfDpTgBZMmz-8LKpOQTMYhhO24GPrIrPTI)
 📢 If you find this project helpful or use it in your work, please consider giving it a ⭐ or letting me know via email or GitHub issues!
 
